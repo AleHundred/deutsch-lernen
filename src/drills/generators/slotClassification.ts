@@ -4,6 +4,7 @@ export type Slot = "Te" | "Ka" | "Mo" | "Lo";
 
 export interface SlotClassificationPrompt {
   phrase: string;
+  gloss?: string;
   options: readonly ["Te", "Ka", "Mo", "Lo"];
   correctAnswer: Slot;
   subtype: string;
@@ -24,6 +25,7 @@ export function generateSlotClassification(
 
   const params = item.params as {
     phrase: string;
+    gloss?: string;
     correctSlot: Slot;
     subtype: string;
     disambiguationNote?: string;
@@ -32,6 +34,7 @@ export function generateSlotClassification(
 
   return {
     phrase: params.phrase,
+    ...(params.gloss && { gloss: params.gloss }),
     options: SLOT_OPTIONS,
     correctAnswer: params.correctSlot,
     subtype: params.subtype,

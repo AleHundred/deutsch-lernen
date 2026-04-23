@@ -80,11 +80,22 @@ export function DrillSession() {
       </div>
 
       {result === null ? (
-        <DrillPrompt phrase={prompt.phrase} onAnswer={handleAnswer} />
+        <DrillPrompt
+          phrase={prompt.phrase}
+          gloss={prompt.gloss}
+          onAnswer={handleAnswer}
+        />
       ) : (
         <div className="flex flex-col items-center gap-10">
-          <div className="font-mono text-4xl text-center leading-snug">
-            {prompt.phrase}
+          <div className="flex flex-col items-center">
+            <div className="font-mono text-4xl text-center leading-snug">
+              {prompt.phrase}
+            </div>
+            {prompt.gloss && (
+              <div className="text-lg italic text-text/60 mt-2 text-center">
+                {prompt.gloss}
+              </div>
+            )}
           </div>
           <SlotButtons
             onAnswer={() => {}}
