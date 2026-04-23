@@ -18,6 +18,65 @@ export async function buildSession(
   return selectItems({ ...opts, items, srsRows, now: new Date() });
 }
 
+export interface PoolCounts {
+  due: number;
+  unseen: number;
+  weak: number;
+}
+
+export async function getPoolCounts(currentWeek: number): Promise<PoolCounts> {
+  const items = await db.drillItems.toArray();
+  const srsRows = await db.srsState.toArray();
+  return poolCounts({ items, srsRows, now: new Date(), currentWeek });
+}
+
+export function poolCounts(input: {
+  items: DrillItem[];
+  srsRows: SRSState[];
+  now: Date;
+  currentWeek: number;
+}): PoolCounts {
+  const { items, srsRows, now, currentWeek } = input;
+  const week = weeklyFocus[currentWeek];
+  if (!week) return { due: 0, unseen: 0, weak: 0 };
+
+  const primary = new Set<GrammarTopic>(week.primary);
+  const reviewAll = week.review === "all";
+  const review = new Set<GrammarTopic>(reviewAll ? [] : week.review);
+  const inAllowed = (t: GrammarTopic) =>
+    reviewAll || primary.has(t) || review.has(t);
+
+  const allowed = items.filter((i) => inAllowed(i.grammarTopic));
+  const srsByItemId = new Map<string, SRSState>();
+  for (const r of srsRows) srsByItemId.set(r.itemId, r);
+  const nowIso = now.toISOString();
+
+  let due = 0;
+  let unseen = 0;
+  const ruleStats = new Map<string, { attempts: number; correct: number }>();
+  for (const item of allowed) {
+    const srs = srsByItemId.get(item.id);
+    if (!srs) {
+      unseen++;
+      continue;
+    }
+    if (srs.nextReview <= nowIso) due++;
+    if (srs.totalAttempts > 0) {
+      const s = ruleStats.get(item.rule) ?? { attempts: 0, correct: 0 };
+      s.attempts += srs.totalAttempts;
+      s.correct += srs.totalCorrect;
+      ruleStats.set(item.rule, s);
+    }
+  }
+  const weakRules = new Set<string>();
+  for (const [rule, s] of ruleStats) {
+    if (s.attempts > 5 && s.correct / s.attempts < 0.7) weakRules.add(rule);
+  }
+  const weak = allowed.filter((i) => weakRules.has(i.rule)).length;
+
+  return { due, unseen, weak };
+}
+
 export interface SelectItemsInput extends BuildSessionOptions {
   items: DrillItem[];
   srsRows: SRSState[];
