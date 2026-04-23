@@ -8,6 +8,9 @@ import {
   type Slot,
 } from "../drills/generators/slotClassification";
 import type { EvaluationResult } from "../drills/types";
+import { slotLabels, type SlotKey } from "../db/seed-classification";
+
+const LEGEND_ORDER: SlotKey[] = ["Te", "Ka", "Mo", "Lo"];
 
 export function DrillSession() {
   const navigate = useNavigate();
@@ -75,8 +78,16 @@ export function DrillSession() {
 
   return (
     <div className="min-h-screen flex flex-col max-w-xl mx-auto px-6 py-10">
-      <div className="text-xs uppercase tracking-widest text-text/50 mb-12">
+      <div className="text-xs uppercase tracking-widest text-text/50 mb-6">
         Item {position} of {total}
+      </div>
+
+      <div className="flex gap-5 justify-center mb-10 text-xs text-text/40 tracking-wide">
+        {LEGEND_ORDER.map((k) => (
+          <span key={k}>
+            {k} · {slotLabels[k].german}
+          </span>
+        ))}
       </div>
 
       {result === null ? (

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import type { Slot } from "../../drills/generators/slotClassification";
+import { slotLabels } from "../../db/seed-classification";
 
 const SLOTS: readonly Slot[] = ["Te", "Ka", "Mo", "Lo"];
 
@@ -42,18 +43,35 @@ export function SlotButtons({
         } else if (disabled) {
           stateClass = "border-text/15 text-text/40";
         }
+
+        const label = slotLabels[slot];
+        const titleText = `${label.full} — ${label.question} (${label.description})`;
+        const tooltipVisibility = disabled ? "" : "group-hover:opacity-100";
+
         return (
-          <button
-            key={slot}
-            onClick={() => !disabled && onAnswer(slot)}
-            disabled={disabled}
-            className={`min-w-[4.5rem] px-4 py-3 rounded font-medium text-lg border transition-colors ${stateClass}`}
-          >
-            <span className="text-[10px] text-text/40 block mb-0.5">
-              {i + 1}
-            </span>
-            {slot}
-          </button>
+          <div key={slot} className="group relative">
+            <button
+              onClick={() => !disabled && onAnswer(slot)}
+              disabled={disabled}
+              title={titleText}
+              className={`min-w-[4.5rem] px-4 py-3 rounded font-medium text-lg border transition-colors ${stateClass}`}
+            >
+              <span className="text-[10px] text-text/40 block mb-0.5">
+                {i + 1}
+              </span>
+              {slot}
+            </button>
+            <div
+              className={`absolute bottom-full mb-2 left-1/2 -translate-x-1/2 opacity-0 ${tooltipVisibility} transition-opacity pointer-events-none bg-bg border border-text/20 rounded px-3 py-2 text-sm whitespace-nowrap z-10`}
+            >
+              <div>
+                {label.full} · {label.question}
+              </div>
+              <div className="text-xs text-text/60 mt-0.5">
+                {label.description}
+              </div>
+            </div>
+          </div>
         );
       })}
     </div>
