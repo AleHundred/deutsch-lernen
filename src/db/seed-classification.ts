@@ -1,23 +1,24 @@
 // src/db/seed-classification.ts
 //
-// Seed data for slot-classification drill (v0.1).
-// 100 adverbial phrases, each tagged with TeKaMoLo slot + subtype.
+// Seed data for slot-classification drill (v0.1.1).
+// 100 adverbial phrases, each tagged with TeKaMoLo slot + subtype + English gloss.
 // Weighted toward Berlin-life vocabulary and ambiguous prepositions.
 //
 // Structure: each entry becomes one DrillItem with:
 //   kind: "slot-classification"
 //   grammarTopic: "tekamolo"
-//   params: { phrase, correctSlot, subtype, disambiguationNote?, examples? }
+//   params: { phrase, gloss, correctSlot, subtype, disambiguationNote?, examples? }
 //   rule: a pattern key for SRS aggregation (e.g. "mit-Mo-accompaniment")
 //
 // Names used: Lex (girlfriend), Miša, Lisa, Felipe, Kitty (friends)
 // Places: Tipsy Bear, Späti, Görli (Görlitzer Park), Kanal (Landwehrkanal),
 //         Homeoffice, Hausarzt, Bürgeramt
 
-import type { DrillItem, UUID } from "./schema";
+import type { DrillItem } from "./schema";
 
 interface SeedEntry {
   phrase: string;
+  gloss: string;
   correctSlot: "Te" | "Ka" | "Mo" | "Lo";
   subtype: string;
   rule: string;
@@ -33,6 +34,7 @@ export const classificationSeed: SeedEntry[] = [
 
   {
     phrase: "am Montag",
+    gloss: "on Monday",
     correctSlot: "Te",
     subtype: "day-of-week",
     rule: "am-day-Te",
@@ -41,6 +43,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "um 9 Uhr",
+    gloss: "at 9 o'clock",
     correctSlot: "Te",
     subtype: "clock-time",
     rule: "um-clock-Te",
@@ -49,6 +52,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "im Januar",
+    gloss: "in January",
     correctSlot: "Te",
     subtype: "month",
     rule: "im-month-Te",
@@ -57,6 +61,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "im Sommer",
+    gloss: "in summer",
     correctSlot: "Te",
     subtype: "season",
     rule: "im-season-Te",
@@ -64,6 +69,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "heute",
+    gloss: "today",
     correctSlot: "Te",
     subtype: "bare-adverb",
     rule: "bare-Te",
@@ -71,6 +77,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "morgen",
+    gloss: "tomorrow",
     correctSlot: "Te",
     subtype: "bare-adverb",
     rule: "bare-Te",
@@ -78,6 +85,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "gestern",
+    gloss: "yesterday",
     correctSlot: "Te",
     subtype: "bare-adverb",
     rule: "bare-Te",
@@ -85,6 +93,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "jeden Tag",
+    gloss: "every day",
     correctSlot: "Te",
     subtype: "frequency",
     rule: "frequency-Te",
@@ -92,6 +101,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "am Wochenende",
+    gloss: "on the weekend",
     correctSlot: "Te",
     subtype: "period",
     rule: "am-period-Te",
@@ -99,6 +109,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "seit drei Jahren",
+    gloss: "for three years (up to now)",
     correctSlot: "Te",
     subtype: "duration-since",
     rule: "seit-Te",
@@ -107,6 +118,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "vor zwei Wochen",
+    gloss: "two weeks ago",
     correctSlot: "Te",
     subtype: "time-ago",
     rule: "vor-time-Te",
@@ -120,6 +132,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "nach der Arbeit",
+    gloss: "after work",
     correctSlot: "Te",
     subtype: "after-event",
     rule: "nach-event-Te",
@@ -130,6 +143,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "während des Meetings",
+    gloss: "during the meeting",
     correctSlot: "Te",
     subtype: "during",
     rule: "waehrend-Te",
@@ -138,6 +152,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "bis Freitag",
+    gloss: "until Friday",
     correctSlot: "Te",
     subtype: "until-time",
     rule: "bis-time-Te",
@@ -145,6 +160,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "bis morgen",
+    gloss: "until tomorrow / see you tomorrow",
     correctSlot: "Te",
     subtype: "until-time",
     rule: "bis-time-Te",
@@ -152,6 +168,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "in zwei Tagen",
+    gloss: "in two days (from now)",
     correctSlot: "Te",
     subtype: "in-the-future",
     rule: "in-time-Te",
@@ -162,6 +179,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "bald",
+    gloss: "soon",
     correctSlot: "Te",
     subtype: "bare-adverb",
     rule: "bare-Te",
@@ -169,6 +187,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "letzte Woche",
+    gloss: "last week",
     correctSlot: "Te",
     subtype: "last-period",
     rule: "period-Te",
@@ -176,6 +195,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "den ganzen Tag",
+    gloss: "the whole day / all day long",
     correctSlot: "Te",
     subtype: "duration-through",
     rule: "duration-Te",
@@ -183,6 +203,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "gegen 18 Uhr",
+    gloss: "around 6 PM",
     correctSlot: "Te",
     subtype: "approximate-time",
     rule: "gegen-time-Te",
@@ -193,6 +214,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "zwischen den Meetings",
+    gloss: "between the meetings",
     correctSlot: "Te",
     subtype: "between-events",
     rule: "zwischen-time-Te",
@@ -201,6 +223,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "zwischen zwei und drei",
+    gloss: "between two and three",
     correctSlot: "Te",
     subtype: "between-times",
     rule: "zwischen-time-Te",
@@ -208,6 +231,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "innerhalb einer Woche",
+    gloss: "within a week",
     correctSlot: "Te",
     subtype: "within-time",
     rule: "innerhalb-time-Te",
@@ -215,6 +239,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "über das Wochenende",
+    gloss: "over the weekend",
     correctSlot: "Te",
     subtype: "spanning-period",
     rule: "ueber-time-Te",
@@ -228,6 +253,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "unter der Woche",
+    gloss: "during the week / on weekdays",
     correctSlot: "Te",
     subtype: "idiomatic",
     rule: "unter-time-Te",
@@ -243,6 +269,7 @@ export const classificationSeed: SeedEntry[] = [
 
   {
     phrase: "wegen der Hitze",
+    gloss: "because of the heat",
     correctSlot: "Ka",
     subtype: "reason",
     rule: "wegen-Ka",
@@ -251,6 +278,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "wegen eines Termins",
+    gloss: "because of an appointment",
     correctSlot: "Ka",
     subtype: "reason",
     rule: "wegen-Ka",
@@ -258,6 +286,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "wegen Lex",
+    gloss: "because of Lex",
     correctSlot: "Ka",
     subtype: "reason-personal",
     rule: "wegen-Ka",
@@ -265,6 +294,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "aufgrund der Verspätung",
+    gloss: "due to the delay",
     correctSlot: "Ka",
     subtype: "reason-formal",
     rule: "aufgrund-Ka",
@@ -272,6 +302,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "aus Angst",
+    gloss: "out of fear",
     correctSlot: "Ka",
     subtype: "emotion-cause",
     rule: "aus-emotion-Ka",
@@ -284,6 +315,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "aus Neugier",
+    gloss: "out of curiosity",
     correctSlot: "Ka",
     subtype: "emotion-cause",
     rule: "aus-emotion-Ka",
@@ -291,6 +323,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "aus Langeweile",
+    gloss: "out of boredom",
     correctSlot: "Ka",
     subtype: "emotion-cause",
     rule: "aus-emotion-Ka",
@@ -298,6 +331,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "vor Angst",
+    gloss: "from fear (physical cause — e.g. trembling with fear)",
     correctSlot: "Ka",
     subtype: "emotion-cause",
     rule: "vor-emotion-Ka",
@@ -311,6 +345,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "vor Müdigkeit",
+    gloss: "from tiredness (physical cause)",
     correctSlot: "Ka",
     subtype: "emotion-cause",
     rule: "vor-emotion-Ka",
@@ -318,6 +353,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "deshalb",
+    gloss: "therefore / for that reason",
     correctSlot: "Ka",
     subtype: "bare-adverb",
     rule: "bare-Ka",
@@ -325,6 +361,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "deswegen",
+    gloss: "therefore / for that reason",
     correctSlot: "Ka",
     subtype: "bare-adverb",
     rule: "bare-Ka",
@@ -332,6 +369,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "darum",
+    gloss: "therefore / for that reason",
     correctSlot: "Ka",
     subtype: "bare-adverb",
     rule: "bare-Ka",
@@ -339,6 +377,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "trotz des Regens",
+    gloss: "despite the rain",
     correctSlot: "Ka",
     subtype: "concessive",
     rule: "trotz-Ka",
@@ -348,6 +387,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "dank seiner Hilfe",
+    gloss: "thanks to his help",
     correctSlot: "Ka",
     subtype: "reason-positive",
     rule: "dank-Ka",
@@ -355,6 +395,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "aus diesem Grund",
+    gloss: "for this reason",
     correctSlot: "Ka",
     subtype: "reason-generic",
     rule: "aus-grund-Ka",
@@ -369,6 +410,7 @@ export const classificationSeed: SeedEntry[] = [
 
   {
     phrase: "mit der U-Bahn",
+    gloss: "by U-Bahn / subway",
     correctSlot: "Mo",
     subtype: "means-transport",
     rule: "mit-thing-Mo",
@@ -377,6 +419,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "mit dem Fahrrad",
+    gloss: "by bike",
     correctSlot: "Mo",
     subtype: "means-transport",
     rule: "mit-thing-Mo",
@@ -384,6 +427,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "mit dem Bus",
+    gloss: "by bus",
     correctSlot: "Mo",
     subtype: "means-transport",
     rule: "mit-thing-Mo",
@@ -391,6 +435,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "zu Fuß",
+    gloss: "on foot",
     correctSlot: "Mo",
     subtype: "means-manner",
     rule: "zu-fuss-Mo",
@@ -400,6 +445,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "mit Lex",
+    gloss: "with Lex",
     correctSlot: "Mo",
     subtype: "accompaniment",
     rule: "mit-person-Mo",
@@ -408,6 +454,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "mit Miša",
+    gloss: "with Miša",
     correctSlot: "Mo",
     subtype: "accompaniment",
     rule: "mit-person-Mo",
@@ -415,6 +462,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "mit Lisa und Felipe",
+    gloss: "with Lisa and Felipe",
     correctSlot: "Mo",
     subtype: "accompaniment",
     rule: "mit-person-Mo",
@@ -422,6 +470,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "mit Kitty",
+    gloss: "with Kitty",
     correctSlot: "Mo",
     subtype: "accompaniment",
     rule: "mit-person-Mo",
@@ -429,6 +478,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "ohne Jacke",
+    gloss: "without a jacket",
     correctSlot: "Mo",
     subtype: "negative-means",
     rule: "ohne-Mo",
@@ -437,6 +487,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "ohne Alkohol",
+    gloss: "without alcohol",
     correctSlot: "Mo",
     subtype: "negative-means",
     rule: "ohne-Mo",
@@ -444,6 +495,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "ohne Hilfe",
+    gloss: "without help",
     correctSlot: "Mo",
     subtype: "negative-means",
     rule: "ohne-Mo",
@@ -451,6 +503,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "per E-Mail",
+    gloss: "by email",
     correctSlot: "Mo",
     subtype: "channel",
     rule: "per-Mo",
@@ -459,6 +512,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "per Telefon",
+    gloss: "by phone",
     correctSlot: "Mo",
     subtype: "channel",
     rule: "per-Mo",
@@ -466,6 +520,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "per Zoom",
+    gloss: "via Zoom",
     correctSlot: "Mo",
     subtype: "channel",
     rule: "per-Mo",
@@ -473,6 +528,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "auf Deutsch",
+    gloss: "in German",
     correctSlot: "Mo",
     subtype: "language",
     rule: "auf-language-Mo",
@@ -483,6 +539,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "auf Englisch",
+    gloss: "in English",
     correctSlot: "Mo",
     subtype: "language",
     rule: "auf-language-Mo",
@@ -490,6 +547,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "auf Spanisch",
+    gloss: "in Spanish",
     correctSlot: "Mo",
     subtype: "language",
     rule: "auf-language-Mo",
@@ -497,6 +555,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "schnell",
+    gloss: "quickly / fast",
     correctSlot: "Mo",
     subtype: "bare-manner",
     rule: "bare-manner-Mo",
@@ -504,6 +563,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "leise",
+    gloss: "quietly",
     correctSlot: "Mo",
     subtype: "bare-manner",
     rule: "bare-manner-Mo",
@@ -511,6 +571,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "gern",
+    gloss: "gladly / willingly",
     correctSlot: "Mo",
     subtype: "bare-manner",
     rule: "bare-manner-Mo",
@@ -518,6 +579,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "alleine",
+    gloss: "alone",
     correctSlot: "Mo",
     subtype: "bare-manner",
     rule: "bare-manner-Mo",
@@ -525,6 +587,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "zusammen",
+    gloss: "together",
     correctSlot: "Mo",
     subtype: "bare-manner",
     rule: "bare-manner-Mo",
@@ -532,6 +595,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "mit Geduld",
+    gloss: "with patience / patiently",
     correctSlot: "Mo",
     subtype: "manner-abstract",
     rule: "mit-abstract-Mo",
@@ -541,6 +605,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "in aller Ruhe",
+    gloss: "calmly / at one's leisure",
     correctSlot: "Mo",
     subtype: "manner-idiom",
     rule: "in-manner-Mo",
@@ -550,6 +615,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "unter Freunden",
+    gloss: "among friends",
     correctSlot: "Mo",
     subtype: "among-social",
     rule: "unter-social-Mo",
@@ -560,12 +626,12 @@ export const classificationSeed: SeedEntry[] = [
   },
 
   // ═══════════════════════════════════════════════════════════════
-  // LOKAL (35 items — heavy because bei/zu pairs and Berlin geography)
+  // LOKAL (35 items)
   // ═══════════════════════════════════════════════════════════════
 
-  // bei/zu pairs — location vs direction for people/places you actually go
   {
     phrase: "bei Lex",
+    gloss: "at Lex's place",
     correctSlot: "Lo",
     subtype: "location-at-person",
     rule: "bei-person-Lo",
@@ -576,6 +642,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "zu Lex",
+    gloss: "to Lex's place",
     correctSlot: "Lo",
     subtype: "direction-to-person",
     rule: "zu-person-Lo",
@@ -585,6 +652,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "bei Miša",
+    gloss: "at Miša's place",
     correctSlot: "Lo",
     subtype: "location-at-person",
     rule: "bei-person-Lo",
@@ -592,6 +660,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "zu Miša",
+    gloss: "to Miša's place",
     correctSlot: "Lo",
     subtype: "direction-to-person",
     rule: "zu-person-Lo",
@@ -599,6 +668,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "bei Kitty",
+    gloss: "at Kitty's place",
     correctSlot: "Lo",
     subtype: "location-at-person",
     rule: "bei-person-Lo",
@@ -606,15 +676,15 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "zu Felipe",
+    gloss: "to Felipe's place",
     correctSlot: "Lo",
     subtype: "direction-to-person",
     rule: "zu-person-Lo",
     difficulty: 1,
   },
-
-  // Berlin venues — Tipsy Bear, Späti, Görli, Kanal, etc.
   {
     phrase: "im Tipsy Bear",
+    gloss: "at Tipsy Bear",
     correctSlot: "Lo",
     subtype: "location-venue",
     rule: "im-place-Lo",
@@ -623,6 +693,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "ins Tipsy Bear",
+    gloss: "to Tipsy Bear",
     correctSlot: "Lo",
     subtype: "direction-to-venue",
     rule: "ins-place-Lo",
@@ -632,6 +703,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "im Späti",
+    gloss: "at the Späti",
     correctSlot: "Lo",
     subtype: "location-venue",
     rule: "im-place-Lo",
@@ -639,6 +711,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "zum Späti",
+    gloss: "to the Späti",
     correctSlot: "Lo",
     subtype: "direction-to-venue",
     rule: "zum-place-Lo",
@@ -646,6 +719,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "im Görli",
+    gloss: "in Görli (Görlitzer Park)",
     correctSlot: "Lo",
     subtype: "location-park",
     rule: "im-place-Lo",
@@ -653,6 +727,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "am Kanal",
+    gloss: "at/by the canal",
     correctSlot: "Lo",
     subtype: "location-beside",
     rule: "am-place-Lo",
@@ -663,6 +738,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "am Hermannplatz",
+    gloss: "at Hermannplatz",
     correctSlot: "Lo",
     subtype: "location-square",
     rule: "am-place-Lo",
@@ -670,15 +746,15 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "am Kotti",
+    gloss: "at Kotti (Kottbusser Tor)",
     correctSlot: "Lo",
     subtype: "location-square",
     rule: "am-place-Lo",
     difficulty: 1,
   },
-
-  // Home and work (remote-life adapted)
   {
     phrase: "im Homeoffice",
+    gloss: "in the home office",
     correctSlot: "Lo",
     subtype: "location-work",
     rule: "im-place-Lo",
@@ -686,6 +762,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "in der Küche",
+    gloss: "in the kitchen",
     correctSlot: "Lo",
     subtype: "location-room",
     rule: "in-place-Lo",
@@ -693,6 +770,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "auf dem Sofa",
+    gloss: "on the sofa",
     correctSlot: "Lo",
     subtype: "location-on",
     rule: "auf-place-Lo",
@@ -700,6 +778,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "zu Hause",
+    gloss: "at home",
     correctSlot: "Lo",
     subtype: "location-home-idiom",
     rule: "zu-hause-Lo",
@@ -710,6 +789,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "nach Hause",
+    gloss: "home (going home)",
     correctSlot: "Lo",
     subtype: "direction-home-idiom",
     rule: "nach-hause-Lo",
@@ -717,10 +797,9 @@ export const classificationSeed: SeedEntry[] = [
     disambiguationNote:
       "nach Hause → Lo (direction, idiom). Both 'zu Hause' and 'nach Hause' are Lo.",
   },
-
-  // Medical/bureaucracy
   {
     phrase: "beim Hausarzt",
+    gloss: "at the GP's office",
     correctSlot: "Lo",
     subtype: "location-professional",
     rule: "bei-person-Lo",
@@ -728,6 +807,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "zum Hausarzt",
+    gloss: "to the GP",
     correctSlot: "Lo",
     subtype: "direction-to-professional",
     rule: "zum-person-Lo",
@@ -735,6 +815,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "zum Bürgeramt",
+    gloss: "to the Bürgeramt",
     correctSlot: "Lo",
     subtype: "direction-to-institution",
     rule: "zum-place-Lo",
@@ -742,15 +823,15 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "im Finanzamt",
+    gloss: "at the tax office",
     correctSlot: "Lo",
     subtype: "location-institution",
     rule: "im-place-Lo",
     difficulty: 1,
   },
-
-  // Cities/countries — origin vs destination
   {
     phrase: "nach Berlin",
+    gloss: "to Berlin",
     correctSlot: "Lo",
     subtype: "direction-to-city",
     rule: "nach-place-Lo",
@@ -761,6 +842,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "nach Mexiko",
+    gloss: "to Mexico",
     correctSlot: "Lo",
     subtype: "direction-to-country",
     rule: "nach-place-Lo",
@@ -768,6 +850,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "aus Berlin",
+    gloss: "from Berlin (origin)",
     correctSlot: "Lo",
     subtype: "origin-place",
     rule: "aus-place-Lo",
@@ -778,15 +861,15 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "aus Mexiko",
+    gloss: "from Mexico (origin)",
     correctSlot: "Lo",
     subtype: "origin-country",
     rule: "aus-place-Lo",
     difficulty: 2,
   },
-
-  // Spatial prepositions — vor, hinter, über, unter, zwischen (spatial)
   {
     phrase: "vor dem Tipsy Bear",
+    gloss: "in front of Tipsy Bear",
     correctSlot: "Lo",
     subtype: "location-in-front",
     rule: "vor-place-Lo",
@@ -800,6 +883,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "hinter dem Späti",
+    gloss: "behind the Späti",
     correctSlot: "Lo",
     subtype: "location-behind",
     rule: "hinter-place-Lo",
@@ -807,6 +891,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "über die Brücke",
+    gloss: "across the bridge",
     correctSlot: "Lo",
     subtype: "direction-across",
     rule: "ueber-place-Lo",
@@ -816,6 +901,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "über dem Sofa",
+    gloss: "above the sofa",
     correctSlot: "Lo",
     subtype: "location-above",
     rule: "ueber-place-Lo",
@@ -823,6 +909,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "unter dem Tisch",
+    gloss: "under the table",
     correctSlot: "Lo",
     subtype: "location-under",
     rule: "unter-place-Lo",
@@ -830,6 +917,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "zwischen den Häusern",
+    gloss: "between the buildings",
     correctSlot: "Lo",
     subtype: "location-between",
     rule: "zwischen-place-Lo",
@@ -838,25 +926,24 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "gegenüber dem Späti",
+    gloss: "across from the Späti",
     correctSlot: "Lo",
     subtype: "location-opposite",
     rule: "gegenueber-Lo",
     difficulty: 2,
   },
-
-  // Post-positional entlang
   {
     phrase: "den Kanal entlang",
+    gloss: "along the canal",
     correctSlot: "Lo",
     subtype: "direction-along",
     rule: "entlang-Lo",
     difficulty: 3,
     disambiguationNote: "entlang is post-positional (noun first). Always Lo.",
   },
-
-  // Bare spatial adverbs
   {
     phrase: "hier",
+    gloss: "here",
     correctSlot: "Lo",
     subtype: "bare-location",
     rule: "bare-Lo",
@@ -864,6 +951,7 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "dort",
+    gloss: "there",
     correctSlot: "Lo",
     subtype: "bare-location",
     rule: "bare-Lo",
@@ -871,12 +959,44 @@ export const classificationSeed: SeedEntry[] = [
   },
   {
     phrase: "draußen",
+    gloss: "outside",
     correctSlot: "Lo",
     subtype: "bare-location",
     rule: "bare-Lo",
     difficulty: 1,
   },
 ];
+
+// Category-level labels used by drill UI for button tooltips + legend.
+// Single source of truth so hover text and drill legend stay consistent.
+export const slotLabels = {
+  Te: {
+    full: "Temporal",
+    german: "Zeit",
+    question: "wann?",
+    description: "when — time, duration, frequency",
+  },
+  Ka: {
+    full: "Kausal",
+    german: "Grund",
+    question: "warum?",
+    description: "why — reason, cause",
+  },
+  Mo: {
+    full: "Modal",
+    german: "Art",
+    question: "wie? womit? mit wem?",
+    description: "how — means, manner, accompaniment",
+  },
+  Lo: {
+    full: "Lokal",
+    german: "Ort",
+    question: "wo? wohin?",
+    description: "where / where to — location, direction",
+  },
+} as const;
+
+export type SlotKey = keyof typeof slotLabels;
 
 // Transform seed entries into DrillItem records for DB insertion.
 // Called from seed.ts during first-run bootstrap.
@@ -885,6 +1005,7 @@ export function buildClassificationItems(): Omit<DrillItem, "id">[] {
     kind: "slot-classification" as const,
     params: {
       phrase: entry.phrase,
+      gloss: entry.gloss,
       correctSlot: entry.correctSlot,
       subtype: entry.subtype,
       ...(entry.disambiguationNote && {
@@ -897,16 +1018,3 @@ export function buildClassificationItems(): Omit<DrillItem, "id">[] {
     difficulty: entry.difficulty,
   }));
 }
-
-// Count: 25 Te + 15 Ka + 25 Mo + 35 Lo = 100 items
-// Rules covered (for SRS aggregation analysis later):
-//   Te: am-day, um-clock, im-month, im-season, bare-Te, frequency, am-period,
-//       seit, vor-time, nach-event, waehrend, bis-time, in-time, period,
-//       duration, gegen-time, zwischen-time, innerhalb-time, ueber-time, unter-time
-//   Ka: wegen, aufgrund, aus-emotion, vor-emotion, bare-Ka, trotz, dank, aus-grund
-//   Mo: mit-thing, zu-fuss, mit-person, ohne, per, auf-language, bare-manner,
-//       mit-abstract, in-manner, unter-social
-//   Lo: bei-person, zu-person, im-place, ins-place, zum-place, am-place,
-//       in-place, auf-place, zu-hause, nach-hause, nach-place, aus-place,
-//       vor-place, hinter-place, ueber-place, unter-place, zwischen-place,
-//       gegenueber, entlang, bare-Lo
