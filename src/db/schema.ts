@@ -107,4 +107,5 @@ export interface AppState {
   id: "singleton";           // always this literal value
   currentWeek: number;       // 1-12, manually advanced
   lastOpenedAt?: ISODate;
+  seedVersion?: number;      // bump SEED_VERSION in seed-classification.ts to trigger reseed
 }
