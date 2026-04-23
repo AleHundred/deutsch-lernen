@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #1a1816;
+  --color-text: #e8e4df;
+  --color-accent: #c8845e;
+
+  --font-family-sans: 'IBM Plex Sans', sans-serif;
+  --font-family-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family-sans);
+}
