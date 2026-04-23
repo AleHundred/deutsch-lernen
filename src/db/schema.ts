@@ -31,11 +31,12 @@ export interface Preposition {
 }
 
 export type DrillKind =
-  | "word-order-perfekt"
-  | "case-after-prep"      // v0.2
-  | "gender-recall"        // v0.2
-  | "partizip2"            // v0.2
-  | "word-order-weil";     // v0.2
+  | "slot-classification"  // v0.1
+  | "word-order-perfekt"   // v0.2
+  | "case-after-prep"      // v0.2+
+  | "gender-recall"        // v0.2+
+  | "partizip2"            // v0.2+
+  | "word-order-weil";     // v0.2+
 
 export type GrammarTopic =
   | "tekamolo"
@@ -50,11 +51,21 @@ export type GrammarTopic =
   | "konjunktiv2"
   | "reflexive-verben";
 
+/**
+ * When `kind === "slot-classification"`, `params` has this shape:
+ *   {
+ *     phrase: string;                              // "mit dem Fahrrad"
+ *     correctSlot: "Te" | "Ka" | "Mo" | "Lo";
+ *     subtype: string;                             // "means-transport", "accompaniment", etc.
+ *     disambiguationNote?: string;                 // shown in feedback
+ *     examples?: string;                           // JSON-stringified array of contrast examples
+ *   }
+ */
 export interface DrillItem {
   id: UUID;
   kind: DrillKind;
   params: Record<string, UUID | string | number>;
-  rule: string;              // free-form tag, e.g. "perfekt-haben-regular-machen"
+  rule: string;              // free-form tag, e.g. "vor-emotion-Ka", "mit-person-Mo"
   grammarTopic: GrammarTopic;
   difficulty: 1 | 2 | 3;
   tags?: string[];
@@ -93,6 +104,7 @@ export interface DrillSession {
 }
 
 export interface AppState {
+  id: "singleton";           // always this literal value
   currentWeek: number;       // 1-12, manually advanced
   lastOpenedAt?: ISODate;
 }
