@@ -138,7 +138,8 @@ function evaluateSlotClassification(
 ): EvaluationResult {
   const prompt = generateSlotClassification(item);
   const correct = userAnswer === prompt.correctAnswer;
-  const correctAnswer = `${prompt.correctAnswer} (${prompt.subtype})`;
+  // correctAnswer is the bare slot ("Mo") so OptionButtons can match it for highlighting.
+  // The subtype goes into specificErrorType, and the explanation includes both.
   const explanation =
     prompt.disambiguationNote ??
     (correct
@@ -146,9 +147,10 @@ function evaluateSlotClassification(
       : `Expected ${prompt.correctAnswer} (${prompt.subtype}); you answered ${userAnswer}`);
 
   const feedback: FeedbackContent = {
-    correctAnswer,
+    correctAnswer: prompt.correctAnswer,
     userAnswer,
     explanation,
+    specificErrorType: prompt.subtype,
     ...(prompt.examples && {
       compareItems: prompt.examples.map((ex) => ({
         form: ex.phrase,

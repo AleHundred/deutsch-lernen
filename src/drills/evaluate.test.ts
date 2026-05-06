@@ -209,7 +209,9 @@ describe("evaluate (slot-classification shim)", () => {
     );
     expect(r.correct).toBe(true);
     expect(r.grade).toBe(5);
-    expect(r.feedback.correctAnswer).toBe("Mo (means-transport)");
+    // bare slot in correctAnswer so OptionButtons can match for highlighting
+    expect(r.feedback.correctAnswer).toBe("Mo");
+    expect(r.feedback.specificErrorType).toBe("means-transport");
     expect(r.feedback.userAnswer).toBe("Mo");
   });
 
@@ -221,7 +223,8 @@ describe("evaluate (slot-classification shim)", () => {
     );
     expect(r.correct).toBe(false);
     expect(r.grade).toBe(1);
-    expect(r.feedback.correctAnswer).toBe("Ka (emotion-cause)");
+    expect(r.feedback.correctAnswer).toBe("Ka");
+    expect(r.feedback.specificErrorType).toBe("emotion-cause");
     expect(r.feedback.explanation).toContain("Expected Ka");
   });
 });
