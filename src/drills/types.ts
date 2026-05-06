@@ -1,11 +1,35 @@
+import type { ReactNode } from "react";
+
 export type { DrillKind } from "../db/schema";
+
+export interface FeedbackContent {
+  correctAnswer: string;
+  userAnswer: string;
+  explanation: string;
+  paradigm?: ReactNode;
+  compareItems?: Array<{ form: string; label: string }>;
+  specificErrorType?: string;
+  capitalizationWarning?: string;
+}
+
+export interface ProductionPrompt {
+  displayPrompt: ReactNode;            // rendered prompt (frame with blank, etc.)
+  gloss: string;                       // English meaning
+  inputType: "single-word" | "sentence" | "classification";
+  expectedAnswers: string[];           // all valid answers
+  grammaticallyContrastive: string[];  // forms that are NEVER typos (Levenshtein guard)
+  rule: string;                        // SRS aggregation key
+  buildFeedback: (
+    userAnswer: string,
+    correct: boolean,
+  ) => FeedbackContent;
+}
 
 export interface EvaluationResult {
   correct: boolean;
-  correctAnswer: string;        // always shown, even on correct (e.g. "Mo (accompaniment)")
-  yourAnswer: string;
-  explanation: string;          // from disambiguationNote or generated fallback
-  examples?: { phrase: string; slot: string; sameSlot: boolean }[];
-  grade: 0 | 1 | 2 | 3 | 4 | 5; // mapped for SM-2
-  declarative: boolean;         // correct but >4000ms — surfaced in session summary
+  grade: 0 | 1 | 2 | 3 | 4 | 5;
+  declarative?: boolean;
+  typo?: boolean;
+  diff?: string;
+  feedback: FeedbackContent;
 }

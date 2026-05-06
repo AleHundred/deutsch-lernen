@@ -120,7 +120,7 @@ export function DrillSession() {
                 result.correct ? "text-accent" : "text-red-400"
               }`}
             >
-              {result.correct ? "✓" : "✗"} {result.correctAnswer}
+              {result.correct ? "✓" : "✗"} {result.feedback.correctAnswer}
             </div>
             {prompt.disambiguationNote && (
               <div className="text-sm text-text/70 text-center max-w-md">

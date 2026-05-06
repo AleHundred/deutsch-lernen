@@ -65,7 +65,7 @@ export const useSessionStore = create<SessionStore>((set, get) => ({
     const attempt: Attempt = {
       itemId: item.id,
       userAnswer,
-      correctAnswer: result.correctAnswer,
+      correctAnswer: result.feedback.correctAnswer,
       correct: result.correct,
       responseTimeMs,
     };
