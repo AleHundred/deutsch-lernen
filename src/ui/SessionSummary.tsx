@@ -94,6 +94,34 @@ export function SessionSummary() {
 
   const declarativeRules = ruleStats.filter((r) => r.declarative);
 
+  // Case-selection per-trigger-type aggregate: groups attempts by the
+  // triggerType field on each case-selection item. Empty when no case-selection
+  // attempts in the session.
+  const triggerTypeStats = (() => {
+    const map = new Map<string, { correct: number; total: number }>();
+    for (const a of attempts) {
+      const item = itemById.get(a.itemId);
+      if (!item || item.kind !== "case-selection") continue;
+      const tt = item.params.triggerType;
+      const s = map.get(tt) ?? { correct: 0, total: 0 };
+      s.correct += a.correct ? 1 : 0;
+      s.total += 1;
+      map.set(tt, s);
+    }
+    return Array.from(map.entries())
+      .map(([triggerType, s]) => ({
+        triggerType,
+        correct: s.correct,
+        total: s.total,
+        accuracy: s.correct / s.total,
+      }))
+      .sort((a, b) =>
+        a.accuracy !== b.accuracy
+          ? a.accuracy - b.accuracy
+          : a.triggerType.localeCompare(b.triggerType),
+      );
+  })();
+
   return (
     <div className="min-h-screen flex flex-col max-w-xl mx-auto px-6 py-10">
       <h1 className="text-2xl font-semibold tracking-tight mb-10">
@@ -135,6 +163,31 @@ export function SessionSummary() {
             ))}
           </ul>
         </div>
+      )}
+
+      {triggerTypeStats.length > 0 && (
+        <section className="mb-10">
+          <div className="text-xs uppercase tracking-widest text-text/50 mb-3">
+            Case selection by trigger type
+          </div>
+          <ul className="space-y-1.5">
+            {triggerTypeStats.map((t) => {
+              const weak = t.accuracy < 0.7;
+              return (
+                <li
+                  key={t.triggerType}
+                  className="flex justify-between text-sm font-mono"
+                >
+                  <span>{t.triggerType}</span>
+                  <span className={weak ? "text-red-400" : "text-text/70"}>
+                    {t.correct}/{t.total}
+                    {weak && " ← worth drilling"}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
       )}
 
       <section className="mb-auto">

@@ -9,6 +9,7 @@ import { FeedbackPanel } from "./FeedbackPanel";
 
 interface Props {
   prompt: ProductionPrompt;
+  options: string[];                   // explicit button values; separate from prompt.expectedAnswers
   onSubmit: (answer: string) => void;
   onNext: () => void;
   feedback: EvaluationResult | null;
@@ -19,6 +20,7 @@ interface Props {
 
 export function ClassificationDrill({
   prompt,
+  options,
   onSubmit,
   onNext,
   feedback,
@@ -28,7 +30,7 @@ export function ClassificationDrill({
 }: Props) {
   const [userAnswer, setUserAnswer] = useState<string | undefined>(undefined);
 
-  const options: ButtonOption[] = prompt.expectedAnswers.map((value) => ({
+  const buttons: ButtonOption[] = options.map((value) => ({
     value,
     label: optionLabels?.[value] ?? value,
     tooltip: optionTooltips?.[value],
@@ -50,7 +52,7 @@ export function ClassificationDrill({
       )}
 
       <OptionButtons
-        options={options}
+        options={buttons}
         onAnswer={handleAnswer}
         disabled={disabled}
         correctValue={feedback?.feedback.correctAnswer}

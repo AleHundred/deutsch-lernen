@@ -4,12 +4,17 @@ import { useSessionStore } from "../state/session";
 import { ClassificationDrill } from "./components/ClassificationDrill";
 import { ProductionDrill } from "./components/ProductionDrill";
 import { generateSlotClassification } from "../drills/generators/slotClassification";
+import { generateCaseSelection } from "../drills/generators/caseSelection";
 import type { EvaluationResult, ProductionPrompt } from "../drills/types";
 import type { DrillItem } from "../db/schema";
 import { slotLabels, type SlotKey } from "../db/seed-classification";
 import type { OptionTooltip } from "./components/OptionButtons";
 
 const LEGEND_ORDER: SlotKey[] = ["Te", "Ka", "Mo", "Lo"];
+
+const SLOT_OPTIONS = ["Te", "Ka", "Mo", "Lo"] as const;
+const CASE_OPTIONS = ["nom", "akk", "dat"] as const;
+const CASE_LABELS: Record<string, string> = { nom: "Nom", akk: "Akk", dat: "Dat" };
 
 const SLOT_TOOLTIPS: Record<string, OptionTooltip> = Object.fromEntries(
   LEGEND_ORDER.map((k) => [
@@ -105,6 +110,7 @@ function renderDrill(
         <ClassificationDrill
           key={item.id}
           prompt={prompt}
+          options={[...SLOT_OPTIONS]}
           onSubmit={onSubmit}
           onNext={onNext}
           feedback={result}
@@ -113,12 +119,26 @@ function renderDrill(
         />
       );
     }
-    case "case-selection":
+    case "case-selection": {
+      const prompt = generateCaseSelection(item);
+      return (
+        <ClassificationDrill
+          key={item.id}
+          prompt={prompt}
+          options={[...CASE_OPTIONS]}
+          onSubmit={onSubmit}
+          onNext={onNext}
+          feedback={result}
+          disabled={disabled}
+          optionLabels={CASE_LABELS}
+        />
+      );
+    }
     case "case-morphology":
     case "verb-conjugation":
     case "reflexive-production":
     case "v2-word-order":
-      // Generators land in Phases B–F.
+      // Generators land in Phases C–F.
       return (
         <div className="text-text/60 italic text-center mt-12">
           Drill kind <code>{item.kind}</code> not yet implemented.
@@ -141,7 +161,7 @@ function buildSlotClassificationPrompt(
     ),
     gloss: sp.gloss ?? "",
     inputType: "classification",
-    expectedAnswers: ["Te", "Ka", "Mo", "Lo"],
+    expectedAnswers: [sp.correctAnswer],
     grammaticallyContrastive: [],
     rule: item.rule,
     buildFeedback: (userAnswer, correct) => ({

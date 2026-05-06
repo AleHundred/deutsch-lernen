@@ -177,6 +177,7 @@ function evaluateCaseSelection(
     correctAnswer: item.params.correctCase,
     userAnswer,
     explanation: item.params.explanation,
+    specificErrorType: item.params.triggerType,
   };
   return {
     correct,
