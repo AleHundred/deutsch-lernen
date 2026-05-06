@@ -56,7 +56,7 @@ export function Home() {
     ? `${floorCount} item${floorCount === 1 ? "" : "s"} due`
     : counts.unseen > 0
       ? `${floorCount} new from this week`
-      : "Nothing available";
+      : "No items available for this week's focus topics — Phase B drills coming soon.";
 
   return (
     <div className="min-h-screen flex flex-col max-w-xl mx-auto px-6 py-10">

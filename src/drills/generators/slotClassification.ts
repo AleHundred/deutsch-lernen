@@ -23,14 +23,7 @@ export function generateSlotClassification(
     );
   }
 
-  const params = item.params as {
-    phrase: string;
-    gloss?: string;
-    correctSlot: Slot;
-    subtype: string;
-    disambiguationNote?: string;
-    examples?: string;
-  };
+  const params = item.params; // narrowed to SlotClassificationParams via discriminated union
 
   return {
     phrase: params.phrase,

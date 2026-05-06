@@ -5,12 +5,12 @@ import type { DrillItem, SRSState } from "../db/schema";
 function mkItem(partial: Partial<DrillItem> & { id: string }): DrillItem {
   return {
     kind: "slot-classification",
-    params: {},
+    params: { phrase: "x", correctSlot: "Te", subtype: "test" },
     rule: `rule-${partial.id}`,
-    grammarTopic: "tekamolo",
+    grammarTopic: "v2-word-order",
     difficulty: 1,
     ...partial,
-  };
+  } as DrillItem;
 }
 
 function mkSrs(partial: Partial<SRSState> & { itemId: string }): SRSState {
@@ -40,9 +40,9 @@ describe("scheduler.selectItems", () => {
 
   it("all-new returns unseen items only", () => {
     const items = [
-      mkItem({ id: "a", grammarTopic: "tekamolo" }),
-      mkItem({ id: "b", grammarTopic: "tekamolo" }),
-      mkItem({ id: "c", grammarTopic: "tekamolo" }),
+      mkItem({ id: "a" }),
+      mkItem({ id: "b" }),
+      mkItem({ id: "c" }),
     ];
     const result = selectItems({ ...baseOpts, items, srsRows: [] });
     expect(result).toHaveLength(3);
@@ -51,12 +51,8 @@ describe("scheduler.selectItems", () => {
   });
 
   it("due items prioritized over new when both exist", () => {
-    const due = Array.from({ length: 15 }, (_, i) =>
-      mkItem({ id: `d${i}`, grammarTopic: "tekamolo" }),
-    );
-    const unseen = Array.from({ length: 15 }, (_, i) =>
-      mkItem({ id: `u${i}`, grammarTopic: "tekamolo" }),
-    );
+    const due = Array.from({ length: 15 }, (_, i) => mkItem({ id: `d${i}` }));
+    const unseen = Array.from({ length: 15 }, (_, i) => mkItem({ id: `u${i}` }));
     const srsRows = due.map((d) =>
       mkSrs({
         itemId: d.id,
@@ -78,8 +74,8 @@ describe("scheduler.selectItems", () => {
 
   it("weak-rule bucket activates only after >5 attempts with <70% accuracy", () => {
     const items = [
-      mkItem({ id: "a", rule: "weak-rule", grammarTopic: "tekamolo" }),
-      mkItem({ id: "b", rule: "weak-rule", grammarTopic: "tekamolo" }),
+      mkItem({ id: "a", rule: "weak-rule" }),
+      mkItem({ id: "b", rule: "weak-rule" }),
     ];
     const future = new Date("2030-01-01T00:00:00Z").toISOString();
 
@@ -110,7 +106,7 @@ describe("scheduler.selectItems", () => {
 
   it("currentWeek filter excludes off-topic items", () => {
     const items = [
-      mkItem({ id: "inweek", grammarTopic: "tekamolo" }),
+      mkItem({ id: "inweek", grammarTopic: "v2-word-order" }),
       mkItem({ id: "outweek", grammarTopic: "konjunktiv2" }),
     ];
     const result = selectItems({

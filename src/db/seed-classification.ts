@@ -16,11 +16,6 @@
 
 import type { DrillItem } from "./schema";
 
-// Bump this whenever the seed payload changes shape or content.
-// A mismatch with appState.seedVersion on load triggers a wipe + reseed;
-// same value preserves existing SRS state.
-export const SEED_VERSION = 1;
-
 interface SeedEntry {
   phrase: string;
   gloss: string;

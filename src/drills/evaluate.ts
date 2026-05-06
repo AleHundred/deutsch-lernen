@@ -16,7 +16,7 @@ export function evaluate(
 }
 
 function evaluateSlotClassification(
-  item: DrillItem,
+  item: DrillItem & { kind: "slot-classification" },
   userAnswer: string,
   responseTimeMs: number,
 ): EvaluationResult {

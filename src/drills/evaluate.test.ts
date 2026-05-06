@@ -1,11 +1,11 @@
 import { describe, it, expect } from "vitest";
 import { evaluate, computeGrade } from "./evaluate";
-import type { DrillItem } from "../db/schema";
+import type { DrillItem, SlotClassificationParams } from "../db/schema";
 
-function mkItem(params: Record<string, string>): DrillItem {
+function mkItem(params: SlotClassificationParams): DrillItem {
   return {
     id: "test-id",
-    kind: "slot-classification",
+    kind: "slot-classification" as const,
     params,
     rule: "test-rule",
     grammarTopic: "tekamolo",
