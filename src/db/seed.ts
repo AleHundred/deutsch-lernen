@@ -1,6 +1,6 @@
 import { db } from "./db";
 import { buildClassificationItems } from "./seed-classification";
-import { buildCaseSelectionStubItems } from "./seed-case-selection-stub";
+import { buildCaseSelectionItems } from "./seed-case-selection";
 import type { DrillItem } from "./schema";
 
 export async function seed(): Promise<void> {
@@ -13,7 +13,7 @@ export async function seed(): Promise<void> {
 
   const items: DrillItem[] = [
     ...buildClassificationItems(),
-    ...buildCaseSelectionStubItems(),
+    ...buildCaseSelectionItems(),
   ].map((item) => ({
     ...item,
     id: crypto.randomUUID(),
